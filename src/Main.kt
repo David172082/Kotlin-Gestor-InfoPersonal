@@ -3,7 +3,8 @@ fun main() {
 
     val usuarios = mutableListOf<Usuario>()
 
-    for (i in 1..3) {
+    var i = 1
+    repeat(3) {
         println("Ingrese los datos del Usuario #$i")
 
         print("Nombre completo: ")
@@ -13,41 +14,42 @@ fun main() {
         val edad = readLine()!!.toIntOrNull()
         if (edad == null || edad <= 0) {
             println("Edad inválida. Debe ser mayor que 0.")
-            continue
+            return@repeat
         }
 
         print("Altura (m): ")
         val altura = readLine()!!.toDoubleOrNull()
         if (altura == null || altura <= 0.0) {
             println("Altura inválida. Debe ser mayor que 0.")
-            continue
+            return@repeat
         }
 
         print("Peso (kg): ")
         val peso = readLine()!!.toDoubleOrNull()
         if (peso == null || peso <= 0.0) {
             println("Peso inválido. Debe ser mayor que 0.")
-            continue
+            return@repeat
         }
 
-        print("Correo: ")
+        print("Email: ")
         val email = readLine()!!.trim()
         if (!email.contains("@") || !email.contains(".")) {
-            println("Correo inválido. Debe contener '@' y '.'")
-            continue
+            println("Email inválido. Debe contener '@' y '.'")
+            return@repeat
         }
 
         print("Ciudad de residencia: ")
         val ciudad = readLine()!!.trim()
 
-        // Crear y agregar usuario
         val usuario = Usuario(nombre, edad, altura, peso, email, ciudad)
         usuarios.add(usuario)
+
+        i++
     }
 
     println("Información de Usuarios Registrados:")
 
-    for ((index, u) in usuarios.withIndex()) {
+    usuarios.forEachIndexed { index, u ->
         println("Usuario #${index + 1}")
         println("Nombre (original): ${u.nombre}")
         println("Nombre en MAYÚSCULAS: ${u.nombre.uppercase()}")
@@ -56,7 +58,7 @@ fun main() {
         println("Altura: ${u.altura} m")
         println("Peso: ${u.peso} kg")
         println("IMC: ${"%.2f".format(u.calcularIMC())}")
-        println("Correo: ${u.email} - Dominio: ${u.obtenerDominioEmail()}")
+        println("Email: ${u.email} - Dominio: ${u.obtenerDominioEmail()}")
         println("Ciudad: ${u.ciudad}")
         println("Resumen: ${u.resumenUsuario()}")
         println("─────────────────────────────")
